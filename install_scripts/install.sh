@@ -38,7 +38,17 @@ WIRELESS_DEVICE="wlan0"
 #WIRELESS_DEVICE="eth1"
 
 install() {
-  echo 'Starting Caik-Linux install script.'
+    echo 'Starting Caik-Linux install script.'
   
-  echo 'Partitioning Drive.'
-  part_drive "$DRIVE"
+    echo 'Partitioning Drive.'
+    part_drive "$DRIVE"
+}
+
+part_drive() {
+    parted -s \
+        mklabel msdos \
+        mkpart primary ext2 1 100M\
+        mkpart primary ext2 100M 100%\
+        set 1 boot on \
+        set 2 LVM on
+}
